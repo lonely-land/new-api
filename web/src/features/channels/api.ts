@@ -22,6 +22,10 @@ import { requireServerSuccess } from '@/lib/server-error-message'
 
 import type { InferenceStatus } from './lib/inference-status'
 import type {
+  ChannelFingerprintResult,
+  FingerprintApi,
+} from './lib/model-fingerprint'
+import type {
   AddChannelRequest,
   BatchDeleteParams,
   BatchSetTagParams,
@@ -59,6 +63,22 @@ export async function getInferenceStatus(
     `/api/channel/${channelId}/${provider}/status`,
     { signal, disableDuplicate: true }
   )
+  return requireServerSuccess(response.data).data
+}
+
+export async function detectChannelFingerprint(
+  channelId: number,
+  params: { model: string; api: FingerprintApi },
+  signal?: AbortSignal
+): Promise<ChannelFingerprintResult> {
+  const response = await api.post<{
+    success: boolean
+    message?: string
+    data: ChannelFingerprintResult
+  }>(`/api/channel/${channelId}/fingerprint`, params, {
+    signal,
+    ...channelActionConfig(),
+  })
   return requireServerSuccess(response.data).data
 }
 

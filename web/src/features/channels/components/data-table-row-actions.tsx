@@ -26,6 +26,7 @@ import {
   Gauge,
   DollarSign,
   Download,
+  Fingerprint,
   Copy,
   Power,
   PowerOff,
@@ -120,6 +121,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const handleQueryBalance = () => {
     setCurrentRow(channel)
     setOpen('balance-query')
+  }
+
+  const handleFingerprint = () => {
+    setCurrentRow(channel)
+    setOpen('model-fingerprint')
   }
 
   const handleFetchModels = () => {
@@ -277,6 +283,14 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             {t('Test Connection')}
             <DropdownMenuShortcut>
               <PlugZap size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+
+          {/* Model Fingerprint Detection */}
+          <DropdownMenuItem onClick={handleFingerprint}>
+            {t('Model Fingerprint')}
+            <DropdownMenuShortcut>
+              <Fingerprint size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
 

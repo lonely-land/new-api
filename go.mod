@@ -32,7 +32,7 @@ require (
 	github.com/jfreymuth/oggvorbis v1.0.5
 	github.com/jinzhu/copier v0.4.0
 	github.com/joho/godotenv v1.5.1
-	github.com/klauspost/compress v1.18.3
+	github.com/klauspost/compress v1.18.4
 	github.com/mewkiz/flac v1.0.13
 	github.com/nicksnyder/go-i18n/v2 v2.6.1
 	github.com/pkg/errors v0.9.1
@@ -168,6 +168,7 @@ require (
 require (
 	github.com/Calcium-Ion/moejs v0.1.0-alpha.3
 	github.com/ClickHouse/clickhouse-go/v2 v2.46.0
+	github.com/Ikaleio/lm-detector/sdk/go v0.2.0
 	github.com/QuantumNous/new-api/relaykit v0.0.0
 )
 

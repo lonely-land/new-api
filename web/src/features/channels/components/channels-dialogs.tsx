@@ -24,6 +24,7 @@ import { CopyChannelDialog } from './dialogs/copy-channel-dialog'
 import { EditTagDialog } from './dialogs/edit-tag-dialog'
 import { FetchModelsDialog } from './dialogs/fetch-models-dialog'
 import { InferenceStatusDialog } from './dialogs/inference-status-dialog'
+import { ModelFingerprintDialog } from './dialogs/model-fingerprint-dialog'
 import { MultiKeyManageDialog } from './dialogs/multi-key-manage-dialog'
 import { OllamaModelsDialog } from './dialogs/ollama-models-dialog'
 import { TagBatchEditDialog } from './dialogs/tag-batch-edit-dialog'
@@ -60,6 +61,12 @@ export function ChannelsDialogs() {
       {/* Test Channel Dialog */}
       <ChannelTestDialog
         open={open === 'test-channel'}
+        onOpenChange={(v) => !v && setOpen(null)}
+      />
+
+      {/* Model Fingerprint Detection Dialog */}
+      <ModelFingerprintDialog
+        open={open === 'model-fingerprint'}
         onOpenChange={(v) => !v && setOpen(null)}
       />
 

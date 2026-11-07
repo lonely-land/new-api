@@ -56,15 +56,17 @@ export async function getUsers(
   signal?: AbortSignal
 ): Promise<GetUsersResponse> {
   const { p = 1, page_size = 10, sort_by, sort_order } = params
-  const res = await api.get('/api/user/', {
-    signal,
+  const config = {
     params: {
       p,
       page_size,
       sort_by,
       sort_order,
     },
-  })
+  }
+  const res = signal
+    ? await api.get('/api/user/', { ...config, signal })
+    : await api.get('/api/user/', config)
   return res.data
 }
 

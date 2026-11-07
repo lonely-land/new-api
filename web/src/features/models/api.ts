@@ -49,7 +49,9 @@ export async function getModels(
   params: GetModelsParams = {},
   signal?: AbortSignal
 ): Promise<GetModelsResponse> {
-  const res = await api.get('/api/models/', { params, signal })
+  const res = signal
+    ? await api.get('/api/models/', { params, signal })
+    : await api.get('/api/models/', { params })
   return res.data
 }
 
@@ -60,7 +62,9 @@ export async function searchModels(
   params: SearchModelsParams,
   signal?: AbortSignal
 ): Promise<GetModelsResponse> {
-  const res = await api.get('/api/models/search', { params, signal })
+  const res = signal
+    ? await api.get('/api/models/search', { params, signal })
+    : await api.get('/api/models/search', { params })
   return res.data
 }
 

@@ -38,7 +38,8 @@ export async function getApiKeys(
   signal?: AbortSignal
 ): Promise<GetApiKeysResponse> {
   const { p = 1, size = 10 } = params
-  const res = await api.get(`/api/token/?p=${p}&size=${size}`, { signal })
+  const url = `/api/token/?p=${p}&size=${size}`
+  const res = signal ? await api.get(url, { signal }) : await api.get(url)
   return res.data
 }
 
@@ -53,9 +54,8 @@ export async function searchApiKeys(
   if (token) queryParams.set('token', token)
   if (p != null) queryParams.set('p', String(p))
   if (size != null) queryParams.set('size', String(size))
-  const res = await api.get(`/api/token/search?${queryParams.toString()}`, {
-    signal,
-  })
+  const url = `/api/token/search?${queryParams.toString()}`
+  const res = signal ? await api.get(url, { signal }) : await api.get(url)
   return res.data
 }
 
@@ -78,7 +78,9 @@ export async function createApiKey(
   data: ApiKeyFormData,
   signal?: AbortSignal
 ): Promise<ApiResponse<ApiKey>> {
-  const res = await api.post('/api/token/', data, { signal })
+  const res = signal
+    ? await api.post('/api/token/', data, { signal })
+    : await api.post('/api/token/', data)
   return res.data
 }
 
@@ -95,7 +97,8 @@ export async function deleteApiKey(
   id: number,
   signal?: AbortSignal
 ): Promise<ApiResponse> {
-  const res = await api.delete(`/api/token/${id}/`, { signal })
+  const url = `/api/token/${id}/`
+  const res = signal ? await api.delete(url, { signal }) : await api.delete(url)
   return res.data
 }
 
@@ -113,11 +116,10 @@ export async function updateApiKeyStatus(
   status: number,
   signal?: AbortSignal
 ): Promise<ApiResponse<ApiKey>> {
-  const res = await api.put(
-    '/api/token/?status_only=true',
-    { id, status },
-    { signal }
-  )
+  const body = { id, status }
+  const res = signal
+    ? await api.put('/api/token/?status_only=true', body, { signal })
+    : await api.put('/api/token/?status_only=true', body)
   return res.data
 }
 

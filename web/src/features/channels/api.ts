@@ -140,7 +140,9 @@ export async function getChannels(
   params: GetChannelsParams = {},
   signal?: AbortSignal
 ): Promise<GetChannelsResponse> {
-  const res = await api.get('/api/channel', { params, signal })
+  const res = signal
+    ? await api.get('/api/channel', { params, signal })
+    : await api.get('/api/channel', { params })
   return res.data
 }
 
@@ -219,14 +221,10 @@ export async function updateChannelStatus(
   status: number,
   signal?: AbortSignal
 ): Promise<{ success: boolean; message?: string; data?: boolean }> {
-  const res = await api.post(
-    `/api/channel/${id}/status`,
-    { status },
-    {
-      ...channelActionConfig(),
-      signal,
-    }
-  )
+  const config = signal
+    ? { ...channelActionConfig(), signal }
+    : channelActionConfig()
+  const res = await api.post(`/api/channel/${id}/status`, { status }, config)
   return res.data
 }
 

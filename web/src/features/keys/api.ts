@@ -34,16 +34,18 @@ import type {
 
 // Get paginated API keys list
 export async function getApiKeys(
-  params: GetApiKeysParams = {}
+  params: GetApiKeysParams = {},
+  signal?: AbortSignal
 ): Promise<GetApiKeysResponse> {
   const { p = 1, size = 10 } = params
-  const res = await api.get(`/api/token/?p=${p}&size=${size}`)
+  const res = await api.get(`/api/token/?p=${p}&size=${size}`, { signal })
   return res.data
 }
 
 // Search API keys by keyword or token (with pagination)
 export async function searchApiKeys(
-  params: SearchApiKeysParams
+  params: SearchApiKeysParams,
+  signal?: AbortSignal
 ): Promise<GetApiKeysResponse> {
   const { keyword = '', token = '', p, size } = params
   const queryParams = new URLSearchParams()
@@ -51,7 +53,9 @@ export async function searchApiKeys(
   if (token) queryParams.set('token', token)
   if (p != null) queryParams.set('p', String(p))
   if (size != null) queryParams.set('size', String(size))
-  const res = await api.get(`/api/token/search?${queryParams.toString()}`)
+  const res = await api.get(`/api/token/search?${queryParams.toString()}`, {
+    signal,
+  })
   return res.data
 }
 
@@ -71,9 +75,10 @@ export async function getTokenAutoGroups(): Promise<
 
 // Create a new API key
 export async function createApiKey(
-  data: ApiKeyFormData
+  data: ApiKeyFormData,
+  signal?: AbortSignal
 ): Promise<ApiResponse<ApiKey>> {
-  const res = await api.post('/api/token/', data)
+  const res = await api.post('/api/token/', data, { signal })
   return res.data
 }
 
@@ -86,8 +91,11 @@ export async function updateApiKey(
 }
 
 // Delete a single API key
-export async function deleteApiKey(id: number): Promise<ApiResponse> {
-  const res = await api.delete(`/api/token/${id}/`)
+export async function deleteApiKey(
+  id: number,
+  signal?: AbortSignal
+): Promise<ApiResponse> {
+  const res = await api.delete(`/api/token/${id}/`, { signal })
   return res.data
 }
 
@@ -102,9 +110,14 @@ export async function batchDeleteApiKeys(
 // Update API key status (enable/disable)
 export async function updateApiKeyStatus(
   id: number,
-  status: number
+  status: number,
+  signal?: AbortSignal
 ): Promise<ApiResponse<ApiKey>> {
-  const res = await api.put('/api/token/?status_only=true', { id, status })
+  const res = await api.put(
+    '/api/token/?status_only=true',
+    { id, status },
+    { signal }
+  )
   return res.data
 }
 

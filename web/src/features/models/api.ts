@@ -46,9 +46,12 @@ import type {
  * Get paginated list of models
  */
 export async function getModels(
-  params: GetModelsParams = {}
+  params: GetModelsParams = {},
+  signal?: AbortSignal
 ): Promise<GetModelsResponse> {
-  const res = await api.get('/api/models/', { params })
+  const res = signal
+    ? await api.get('/api/models/', { params, signal })
+    : await api.get('/api/models/', { params })
   return res.data
 }
 
@@ -56,9 +59,12 @@ export async function getModels(
  * Search models with filters
  */
 export async function searchModels(
-  params: SearchModelsParams
+  params: SearchModelsParams,
+  signal?: AbortSignal
 ): Promise<GetModelsResponse> {
-  const res = await api.get('/api/models/search', { params })
+  const res = signal
+    ? await api.get('/api/models/search', { params, signal })
+    : await api.get('/api/models/search', { params })
   return res.data
 }
 

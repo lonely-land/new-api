@@ -52,17 +52,21 @@ function securityProofConfig(proofToken?: string): AxiosRequestConfig {
  * Get paginated users list
  */
 export async function getUsers(
-  params: GetUsersParams = {}
+  params: GetUsersParams = {},
+  signal?: AbortSignal
 ): Promise<GetUsersResponse> {
   const { p = 1, page_size = 10, sort_by, sort_order } = params
-  const res = await api.get('/api/user/', {
+  const config = {
     params: {
       p,
       page_size,
       sort_by,
       sort_order,
     },
-  })
+  }
+  const res = signal
+    ? await api.get('/api/user/', { ...config, signal })
+    : await api.get('/api/user/', config)
   return res.data
 }
 

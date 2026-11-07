@@ -144,6 +144,9 @@ export function ModelFingerprintDialog(props: ModelFingerprintDialogProps) {
         </>
       }
       contentHeight='auto'
+      // Phones get a bottom sheet: dvh can collapse while the on-screen keyboard
+      // is up, which used to leave this dialog shorter than its own footer.
+      contentClassName='max-sm:top-auto max-sm:right-0 max-sm:bottom-0 max-sm:left-0 max-sm:max-h-[85vh] max-sm:w-full max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-b-none max-sm:pb-[max(1rem,env(safe-area-inset-bottom))]'
       bodyClassName='space-y-4'
       footer={
         <>

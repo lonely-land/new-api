@@ -71,7 +71,10 @@ export function Dialog({
       {trigger ? <DialogTrigger render={trigger} /> : null}
       <DialogContent
         className={cn(
-          'flex w-full flex-col gap-4 overflow-x-hidden overflow-y-auto p-4 sm:max-w-2xl sm:p-6',
+          // The dialog itself never scrolls: header/footer stay pinned and the
+          // body scrolls. On phones a long result would otherwise push the
+          // footer (and the fields below it) out of the centred dialog box.
+          'flex w-full flex-col gap-4 overflow-hidden p-4 sm:max-w-2xl sm:p-6',
           contentClassName,
           dialogContentMotionClassName
         )}
@@ -97,7 +100,9 @@ export function Dialog({
         <div
           className={cn(
             '-mx-1 min-h-0 overflow-x-hidden overflow-y-auto overscroll-contain',
-            'h-[var(--dialog-content-height)]'
+            contentHeight === 'auto'
+              ? 'flex-1'
+              : 'h-[var(--dialog-content-height)]'
           )}
         >
           <div
@@ -115,7 +120,7 @@ export function Dialog({
         {footer ? (
           <DialogFooter
             className={cn(
-              'flex-shrink-0 gap-2 sm:-mx-6 sm:-mb-6 sm:justify-end sm:p-6',
+              'flex-shrink-0 gap-2 border-t pt-3 sm:-mx-6 sm:-mb-6 sm:justify-end sm:border-t-0 sm:p-6',
               footerClassName
             )}
           >
